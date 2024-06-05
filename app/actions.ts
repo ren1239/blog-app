@@ -96,8 +96,8 @@ export async function CreateDescriptionPage(formData:FormData){
 
 
 // Function to upload the video and return its URL
-async function getVideoUrl(videoFile: File): Promise<string> {
-    const { data: videoData } = await supabase.storage.from('videos').upload(
+async function uploadVideo(videoFile: File): Promise<{ path:string} > {
+    const { data: videoData , error} = await supabase.storage.from('videos').upload(
         `${videoFile.name}-${new Date()}`,
         videoFile,
         {
@@ -105,7 +105,11 @@ async function getVideoUrl(videoFile: File): Promise<string> {
             contentType: "video/mp4"
         }
     );
-    return videoData?.path as string
+
+    if (error || !videoData) {
+        throw new Error('Failed to upload video to Supabase');
+    }
+    return videoData
 }
 
 async function getVideoThumbnail(videoUrl: string): Promise<string> {
@@ -139,8 +143,11 @@ export async function CreateVideoPage(formData: FormData) {
     const videoFile = formData.get('video') as File;
     const blogId = formData.get('blogId') as string;
 
+
     // Get the video URL after uploading
-    const videoUrl = await getVideoUrl(videoFile);
+
+    const videoData = await uploadVideo(videoFile);
+    const videoUrl = videoData.path;
 
     // Update the blog post with the video URL
     const data = await prisma.blogPost.update({
