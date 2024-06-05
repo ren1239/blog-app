@@ -14,6 +14,7 @@ async function getData() {
       day: true,
       learning: true,
       title: true,
+      thumbnailUrl: true,
     },
   });
   return data;
@@ -35,6 +36,7 @@ export default async function Page() {
               day={item.day as number}
               learning={item.learning as string}
               title={item.title as string}
+              thumbnailPath={item.thumbnailUrl as string}
             />
           </div>
         ))}

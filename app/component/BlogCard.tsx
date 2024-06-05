@@ -4,6 +4,7 @@ interface iAppProps {
   day: number;
   learning: string;
   title: string;
+  thumbnailPath: string;
 }
 
 export default function BlogCard({
@@ -11,6 +12,7 @@ export default function BlogCard({
   day,
   learning,
   title,
+  thumbnailPath,
 }: iAppProps) {
   return (
     <div className="flex flex-col ">
@@ -20,7 +22,7 @@ export default function BlogCard({
           muted
           controls
           className="rounded-lg flex items-center w-full object-fill mb-3"
-          poster="https://images.pexels.com/photos/674010/pexels-photo-674010.jpeg?cs=srgb&dl=pexels-anjana-c-169994-674010.jpg&fm=jpg"
+          poster={`https://skjwcdoanywqytkwugmt.supabase.co/storage/v1/object/public/thumbnails/${thumbnailPath}`}
         >
           <source
             src={`https://skjwcdoanywqytkwugmt.supabase.co/storage/v1/object/public/videos/${videoPath}`}

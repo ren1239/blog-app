@@ -133,7 +133,7 @@ async function getVideoThumbnail(videoUrl: string , videoFile : File): Promise<s
                 timestamps: [4],
                 filename: outputFilename,
                 folder: uploadFolder,
-                size: '1080x1920'
+                size: '540x960'
             })
     });
 }
@@ -175,12 +175,40 @@ export async function CreateVideoPage(formData: FormData) {
     // After successful video update, chain a promise for thumbnail generation
     try {
         const thumbnailPath = await getVideoThumbnail(videoUrl as string , videoFile as File);
-        console.log("Thumbnail generated:", thumbnailPath);
-        // You can potentially update the blog post with thumbnail info here
+        console.log("Thumbnail generated:", `./tmp/${thumbnailPath}`);
+
+        // Read the thumbnail file from the temporary directory
+        const thumbnailBuffer = await fs.readFile(`./tmp/${thumbnailPath}`);
     
+
+        // Upload the thumbnail data
+        const { data: thumbnailData , error} = await supabase.storage.from('thumbnails').upload(
+            `${thumbnailPath}-${new Date()}`,
+            thumbnailBuffer,
+            {
+                cacheControl: "2592000",
+                contentType: "image/png"
+            }
+            
+        );
+        if (error || !thumbnailData) {
+            throw new Error('Failed to upload thumbnail to Supabase');
+        }
+        
+
+        const data = await prisma.blogPost.update({
+            where: {
+                id: blogId
+            },
+            data: {
+                thumbnailUrl: thumbnailData?.path,
+            }
+        });
+
         // Delete the thumbnail after it's been processed
         await deleteThumbnail(thumbnailPath);
         console.log("Thumbnail deteled:");
+
 
     } catch (error) {
         console.error("Error generating thumbnail:", error);
