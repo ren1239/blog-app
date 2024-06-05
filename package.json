@@ -27,7 +27,8 @@
     "react-dom": "^18",
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7",
-    "thumbsupply": "^0.4.0"
+    "thumbsupply": "^0.4.0",
+    "tmp": "^0.2.3"
   },
   "devDependencies": {
     "@types/fluent-ffmpeg": "^2.1.24",

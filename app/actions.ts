@@ -4,7 +4,8 @@ import { redirect } from "next/navigation"
 import prisma from "./lib/db"
 import { supabase } from "./lib/supabase"
 import ffmpeg from "fluent-ffmpeg"
-import { PassThrough } from 'stream';
+import fs from 'fs/promises'
+
 
 
 
@@ -112,29 +113,40 @@ async function uploadVideo(videoFile: File): Promise<{ path:string} > {
     return videoData
 }
 
-async function getVideoThumbnail(videoUrl: string): Promise<string> {
-    const uploadFolder = './'; // Modify this path as needed
-    const outputFilename = `${uploadFolder}thumbnail.png`;
+async function getVideoThumbnail(videoUrl: string , videoFile : File): Promise<string> {
+    const uploadFolder = './tmp'; // Modify this path as needed
+    const outputFilename = `${videoFile.name}-thumbnail.png`;
     const supabaseVideoUrl = `https://skjwcdoanywqytkwugmt.supabase.co/storage/v1/object/public/videos/${videoUrl}`;
-
-    console.log("this is the video url from supabase", supabaseVideoUrl);
-    console.log("this is the output file location", outputFilename);
-
+    console.log('this is the supabasevideourl',supabaseVideoUrl)
     return new Promise((resolve, reject) => {
+
         ffmpeg(supabaseVideoUrl)
-            .on('end', () => {
-                resolve(outputFilename); // Path to the saved thumbnail
-            })
+        .on('end',()=>{
+            resolve(outputFilename); // Path to the saved thumbnail
+
+        })
             .on('error', (err) => {
                 reject(err);
+            
             })
             .screenshots({
                 timestamps: [4],
-                filename: 'thumbnail.png',
+                filename: outputFilename,
                 folder: uploadFolder,
                 size: '1080x1920'
-            });
+            })
     });
+}
+
+// Function to delete the thumbnail
+async function deleteThumbnail(thumbnailPath: string) {
+    const uploadFolder = './tmp/'; // Modify this path as needed
+    try {
+        await fs.unlink(`${uploadFolder}${thumbnailPath}`);
+        console.log("Thumbnail deleted successfully:", thumbnailPath);
+    } catch (error) {
+        console.error("Error deleting thumbnail:", error);
+    }
 }
 
 
@@ -162,9 +174,14 @@ export async function CreateVideoPage(formData: FormData) {
 
     // After successful video update, chain a promise for thumbnail generation
     try {
-        const thumbnailPath = await getVideoThumbnail(videoUrl as string);
+        const thumbnailPath = await getVideoThumbnail(videoUrl as string , videoFile as File);
         console.log("Thumbnail generated:", thumbnailPath);
         // You can potentially update the blog post with thumbnail info here
+    
+        // Delete the thumbnail after it's been processed
+        await deleteThumbnail(thumbnailPath);
+        console.log("Thumbnail deteled:");
+
     } catch (error) {
         console.error("Error generating thumbnail:", error);
         // Handle thumbnail generation error
