@@ -37,6 +37,7 @@ export default async function Page() {
               learning={item.learning as string}
               title={item.title as string}
               thumbnailPath={item.thumbnailUrl as string}
+              blogId={item.id}
             />
           </div>
         ))}
