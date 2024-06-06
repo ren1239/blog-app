@@ -43,7 +43,7 @@ model BlogPost{
   videoUrl String?
   thumbnailUrl String?
 
-  stack String?
+  stack        String[]
 
   categoryName String?
 
@@ -52,6 +52,7 @@ model BlogPost{
   addedCategory Boolean @default(false)
   addedDescription Boolean @default(false)
   addedVideo Boolean @default(false)
+  addedTechStack Boolean @default(false)
 
 
 

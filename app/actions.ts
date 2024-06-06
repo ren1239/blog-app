@@ -28,16 +28,19 @@ export async function createBlog({userId}:{userId:string}) {
         })
         return redirect(`/create/${data.id}/structure`)
     }
-    else if(!data.addedCategory && !data.addedDescription && !data.addedVideo){
+    else if(!data.addedCategory && !data.addedDescription && !data.addedVideo && !data.addedTechStack){
         return redirect(`/create/${data.id}/structure`)       
     }
-    else if(data.addedCategory && !data.addedDescription && !data.addedVideo){
+    else if(data.addedCategory && !data.addedDescription && !data.addedVideo && !data.addedTechStack){
        return  redirect(`/create/${data.id}/description`)  
     }
-    else if(data.addedCategory && data.addedDescription && !data.addedVideo){
+    else if(data.addedCategory && data.addedDescription && !data.addedVideo && !data.addedTechStack){
         return  redirect(`/create/${data.id}/video`)  
      }
-     else if (data.addedCategory && data.addedDescription && data.addedVideo){
+     else if(data.addedCategory && data.addedDescription && data.addedVideo && !data.addedTechStack){
+        return  redirect(`/create/${data.id}/stack`)  
+     }
+     else if (data.addedCategory && data.addedDescription && data.addedVideo && data.addedTechStack){
         const data = await prisma.blogPost.create({
             data:{
                 userId:userId
@@ -93,6 +96,30 @@ export async function CreateDescriptionPage(formData:FormData){
     })
     
     return redirect(`/create/${blogId}/video`)
+}
+
+// Function to select the tech stack
+
+export async function CreateTechStackPage(formData:FormData){
+    const techStack = formData.getAll('techStack') as string[];
+    const blogId = formData.get('blogId') as string
+
+    const techStackArray = techStack.flatMap(stack => stack.split(',').map(item => item.trim()));
+
+
+
+    const data = await prisma.blogPost.update({
+        where:{
+            id:blogId
+        },
+        data:{
+            stack: techStackArray,
+            addedTechStack : true,
+
+        }
+    })
+    return redirect(`/dashboard`)
+
 }
 
 
@@ -216,7 +243,8 @@ export async function CreateVideoPage(formData: FormData) {
         // Handle thumbnail generation error
     }
 
-    return redirect(`/`);
+    return redirect(`/create/${blogId}/stack`)
+    ;
 }
 
 

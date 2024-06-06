@@ -1,6 +1,7 @@
 import BlogCard from "../component/BlogCard";
 import prisma from "../lib/db";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
+import { MapFilteredItems } from "../component/MapFilteredItems";
 
 async function getData({ userId }: { userId: string | undefined }) {
   const data = await prisma.blogPost.findMany({
@@ -8,6 +9,7 @@ async function getData({ userId }: { userId: string | undefined }) {
       addedDescription: true,
       addedVideo: true,
       addedCategory: true,
+      addedTechStack: true,
     },
     select: {
       videoUrl: true,
@@ -33,12 +35,14 @@ export default async function Page() {
 
   return (
     <div className="w-4/5 mx-auto">
+      <MapFilteredItems />
+
       <h2 className=" tracking-tight transition-colors text-3xl font-semibold">
         Daily Blog
       </h2>
       <div className="grid lg:grid-cols-4 sm:grid-cols-2 md:grid-cols-3 gap-8 mt-8">
         {data.map((item) => (
-          <div className="">
+          <div className="" key={item.id}>
             <BlogCard
               key={item.id}
               videoPath={item.videoUrl as string}

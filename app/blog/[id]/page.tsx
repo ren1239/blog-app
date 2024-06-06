@@ -1,3 +1,4 @@
+import TechStackShowcase from "@/app/component/TechStackShowcase";
 import prisma from "@/app/lib/db";
 import React from "react";
 
@@ -26,6 +27,7 @@ async function getData(blogId: string) {
       reflection: true,
       appreciation: true,
       thumbnailUrl: true,
+      stack: true,
     },
   });
   return data;
@@ -37,10 +39,15 @@ export default async function BlogRoute({
   params: { id: string };
 }) {
   const data = await getData(params.id);
+  const stack = data?.stack || []; // Ensure stack is an array
+
   return (
     <div className="w-[75%] mx-auto mt-10 mb-36">
-      <div className="grid grid-cols-2 ">
+      <div className="flex space-x-4 pb-4">
         {" "}
+        <TechStackShowcase techStackName={stack} />
+      </div>
+      <div className="grid grid-cols-2 ">
         <div className=" w-[80%]">
           <video
             loop
