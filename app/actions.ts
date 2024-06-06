@@ -5,6 +5,7 @@ import prisma from "./lib/db"
 import { supabase } from "./lib/supabase"
 import ffmpeg from "fluent-ffmpeg"
 import fs from 'fs/promises'
+import { revalidatePath } from "next/cache"
 
 
 
@@ -216,4 +217,39 @@ export async function CreateVideoPage(formData: FormData) {
     }
 
     return redirect(`/`);
+}
+
+
+export async function DeleteFromFavorite(formData:FormData){
+    const favoriteId = formData.get('favoriteId') as string
+    const userId = formData.get('userId') as string
+    const pathName = formData.get('pathName') as string
+
+    console.log('DeleteFromFavorite triggered with favoriteId:', favoriteId, 'and userId:', userId);
+
+
+    const data = await prisma.favorite.delete({
+        where:{
+            id: favoriteId,
+            userId:userId
+        }
+    })
+    revalidatePath(pathName)
+}
+
+export async function AddToFavorite(formData:FormData){
+    const blogId = formData.get('blogId') as string
+    const userId = formData.get('userId') as string
+    const pathName = formData.get('pathName') as string
+
+    console.log('DeleteFromFavorite triggered with favoriteId:', blogId, 'and userId:', userId);
+
+
+    const data = await prisma.favorite.create({
+        data: {
+            blogId:blogId,
+            userId:userId,
+        }
+    })
+    revalidatePath(pathName)
 }

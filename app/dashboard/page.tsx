@@ -1,7 +1,8 @@
 import BlogCard from "../component/BlogCard";
 import prisma from "../lib/db";
+import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 
-async function getData() {
+async function getData({ userId }: { userId: string | undefined }) {
   const data = await prisma.blogPost.findMany({
     where: {
       addedDescription: true,
@@ -15,13 +16,21 @@ async function getData() {
       learning: true,
       title: true,
       thumbnailUrl: true,
+      Favorite: {
+        where: {
+          userId: userId ?? undefined,
+        },
+      },
     },
   });
   return data;
 }
 
 export default async function Page() {
-  const data = await getData();
+  const { getUser } = getKindeServerSession();
+  const user = await getUser();
+  const data = await getData({ userId: user?.id });
+
   return (
     <div className="w-4/5 mx-auto">
       <h2 className=" tracking-tight transition-colors text-3xl font-semibold">
@@ -38,6 +47,10 @@ export default async function Page() {
               title={item.title as string}
               thumbnailPath={item.thumbnailUrl as string}
               blogId={item.id}
+              pathName={"/dashboard"}
+              isInFavoriteList={item.Favorite.length > 0 ? true : false}
+              favoriteId={item.Favorite[0]?.id}
+              userId={user?.id}
             />
           </div>
         ))}

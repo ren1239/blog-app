@@ -24,6 +24,7 @@ model User {
 
   profileImage String? 
   BlogPost BlogPost[] @relation("UserBlogPosts")
+  Favorite Favorite[]
 }
 
 model BlogPost{
@@ -46,6 +47,8 @@ model BlogPost{
 
   categoryName String?
 
+  Favorite Favorite[]
+
   addedCategory Boolean @default(false)
   addedDescription Boolean @default(false)
   addedVideo Boolean @default(false)
@@ -57,6 +60,17 @@ model BlogPost{
   User User @relation(fields: [userId], references: [id] , name: "UserBlogPosts")
 
 
+}
 
+model Favorite{
+  id String @id @default(uuid())
+
+  User User?  @relation(fields:[userId], references:[id])
+  userId String?
+
+  BlogPost BlogPost? @relation(fields:[blogId] , references: [id])
+  blogId String?
+
+  createdAt DateTime @default(now())
 
 }
