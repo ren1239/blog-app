@@ -1,6 +1,4 @@
 import { Button } from "@/components/ui/button";
-import Image from "next/image";
-import { Suspense } from "react";
 import BackgroundVideo from "./component/BackgroundVideo";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
@@ -19,12 +17,14 @@ export default function Home() {
           Join me as I transition from architect to software developer
         </p>
         <p className=" text-xs  text-white">
-          I record my journey along the way, sharing my experiences, the
-          difficulties and hopefully some success.
+          I record my journey along the way, sharing my experiences
+        </p>
+        <p className=" text-xs  text-white">
+          the difficulties and hopefully some success.
         </p>
         <br />
         <Link href="/main">
-          <Button className="w-36 ">
+          <Button className="w-36 rounded-full ">
             Follow Along <ArrowRight className="ml-2" />
           </Button>
         </Link>
