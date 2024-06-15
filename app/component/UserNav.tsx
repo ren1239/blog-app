@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { MenuIcon } from "lucide-react";
 import React from "react";
+import Image from "next/image";
 
 import {
   RegisterLink,
@@ -34,13 +35,15 @@ export async function UserNav() {
       <DropdownMenu>
         <DropdownMenuTrigger className="rounded-full py-2 px-2 lg:px-4 lg-px-4 items-center gap-x-3 flex border-2 ">
           <MenuIcon className="w-6 h-6" />
-          <img
+          <Image
             className="w-6 hidden lg:block rounded-full"
             src={
               user?.picture ??
               "https://static.thenounproject.com/png/3263829-200.png"
             }
             alt="userimage"
+            width={16}
+            height={16}
           />
         </DropdownMenuTrigger>
 
