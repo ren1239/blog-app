@@ -29,9 +29,8 @@ export async function GET() {
           user.picture ?? `https://avatar.vercel.sh/${user.given_name}`,
       },
     });
-    return NextResponse.redirect("http://localhost:3000/");
   }
 
   // Return a response if the user already exists
-  return NextResponse.redirect("http://localhost:3000/");
+  return NextResponse.redirect("https://blog-app-pearl-nine.vercel.app");
 }
