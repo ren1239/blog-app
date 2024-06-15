@@ -60,7 +60,7 @@ export async function UserNav() {
                 <DropdownMenuItem> Settings</DropdownMenuItem>
                 <DropdownMenuItem> Profile</DropdownMenuItem>
                 <DropdownMenuItem> Settings</DropdownMenuItem>
-                <DropdownMenuItem disabled> Claim free money</DropdownMenuItem>
+                <DropdownMenuItem disabled> Support Me</DropdownMenuItem>
               </DropdownMenuGroup>
               <DropdownMenuSeparator />
               <DropdownMenuItem>
@@ -75,13 +75,13 @@ export async function UserNav() {
               <DropdownMenuLabel>Welcome</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuGroup>
-                <DropdownMenuItem>
+                {/* <DropdownMenuItem>
                   <RegisterLink className="w-full">Register</RegisterLink>
-                </DropdownMenuItem>
+                </DropdownMenuItem> */}
                 <DropdownMenuItem>
                   <LoginLink className="w-full ">Login</LoginLink>
                 </DropdownMenuItem>
-                <DropdownMenuItem disabled> Claim free trial</DropdownMenuItem>
+                <DropdownMenuItem disabled> Support Me</DropdownMenuItem>
               </DropdownMenuGroup>
             </>
           )}

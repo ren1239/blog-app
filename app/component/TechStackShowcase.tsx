@@ -13,9 +13,13 @@ export default function TechStackShowcase({
 
   console.log("techstackitems", techStackItems);
 
-  return techStackItems.map((item) => (
-    <div className=" flex w-8 h-8">
-      <Image src={item.imageUrl} alt={"logo"} width={30} height={30} />
+  return (
+    <div className="w-full">
+      {techStackItems.map((item) => (
+        <div className=" flex w-8 h-8 " key={item.id}>
+          <Image src={item.imageUrl} alt={"logo"} width={30} height={30} />
+        </div>
+      ))}
     </div>
-  ));
+  );
 }
