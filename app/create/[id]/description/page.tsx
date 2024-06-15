@@ -16,7 +16,7 @@ export default function DescriptionPage({
         <input type="hidden" name="blogId" value={params.id} />
         <div className="w-3/5 mx-auto flex justify-between items-center ">
           <h2 className=" tracking-tight transition-colors text-3xl font-semibold">
-            Let's review day ...
+            Lets review day ...
           </h2>
 
           <Counter name="day" />
