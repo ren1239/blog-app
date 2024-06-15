@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import BackgroundVideo from "./component/BackgroundVideo";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
+import { unstable_noStore as noStore } from "next/cache";
 
 export default function Home() {
   return (
@@ -31,15 +32,4 @@ export default function Home() {
       </div>
     </div>
   );
-}
-
-// {
-/* <div className="  flex flex-col text-left h-full  justify-center text-9xl z-10 ">
-          <h2>HELLO, I'M</h2>
-          <p className="  pl-[400px]">REN TAN</p>
-          <p className="pl-24">DEVELOPER</p>
-        </div> */
-// }
-
-{
 }

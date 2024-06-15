@@ -1,6 +1,7 @@
 import TechStackShowcase from "@/app/component/TechStackShowcase";
 import prisma from "@/app/lib/db";
 import React from "react";
+import { unstable_noStore as noStore } from "next/cache";
 
 function formatText(text: string) {
   return text.split("\n").map((line, index) => (
@@ -12,6 +13,7 @@ function formatText(text: string) {
 }
 
 async function getData(blogId: string) {
+  noStore();
   const data = await prisma.blogPost.findUnique({
     where: {
       id: blogId,

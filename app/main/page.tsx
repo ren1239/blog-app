@@ -2,8 +2,10 @@ import BlogCard from "../component/BlogCard";
 import prisma from "../lib/db";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import { MapFilteredItems } from "../component/MapFilteredItems";
+import { unstable_noStore as noStore } from "next/cache";
 
 async function getData({ userId }: { userId: string | undefined }) {
+  noStore();
   const data = await prisma.blogPost.findMany({
     where: {
       addedDescription: true,
