@@ -9,12 +9,9 @@ export default function Home() {
   return (
     <div className="w-full realative">
       <ShuffleHero />
-      <p
-        className="text-center mx-auto md:w-full italic px-10 text-xs md:text-lg pb-2
-       text-white absolute bottom-0  font-noto_serif"
-      >
-        You cant connect the dots looking forward, you can only connect them
-        looking backwards
+      <p className="text-center mx-auto md:w-full italic px-10 text-xs md:text-lg pb-2 text-white absolute bottom-0 font-noto_serif">
+        You can&#39;t connect the dots looking forward, you can only connect
+        them looking backwards
       </p>
     </div>
     // <div className="relative w-full h-screen bg-black overflow-hidden flex flex-col">

@@ -1,9 +1,8 @@
 "use client";
 
-import { easeIn, easeInOut, motion } from "framer-motion";
+import { easeInOut, motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { ImageTypes, squareData } from "../lib/squareData";
-import { time } from "console";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
