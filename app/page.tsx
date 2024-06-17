@@ -13,8 +13,8 @@ export default function Home() {
         className="text-center mx-auto md:w-full italic px-10 text-xs md:text-lg pb-2
        text-white absolute bottom-0  font-noto_serif"
       >
-        'You can't connect the dots looking forward, you can only connect them
-        looking backwards'
+        You can't connect the dots looking forward, you can only connect them
+        looking backwards
       </p>
     </div>
     // <div className="relative w-full h-screen bg-black overflow-hidden flex flex-col">
