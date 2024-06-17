@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { easeIn, easeInOut, motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { ImageTypes, squareData } from "../lib/squareData";
 import { time } from "console";
@@ -16,6 +16,23 @@ const container = {
     },
   },
 };
+const textContainer = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 1.5,
+      type: "spring",
+      easeInOut,
+      duration: 3,
+    },
+  },
+};
+
+const textItem = {
+  hidden: { opacity: 0, y: -100 },
+  show: { opacity: 1, y: 0 },
+};
 
 const item = {
   hidden: { opacity: 0 },
@@ -24,19 +41,27 @@ const item = {
 
 const ShuffleHero = () => {
   return (
-    <section
+    <motion.section
       className="w-full px-8 py-2 md:py-12 grid grid-cols-1 
      md:grid-cols-2 items-center gap-2 md:gap-8 
      mx-auto font-raleway body-height bg-black"
     >
-      <div
+      <motion.div
         className=" items-center justify-center text-white 
       mx-auto w-full flex flex-col gap-y-4"
+        variants={textContainer}
+        initial="hidden"
+        animate="show"
       >
-        <span className="block mb-4 text-xs md:text-sm text-primary font-medium">
+        <motion.span
+          className="block mb-4 text-xs md:text-sm text-primary font-medium"
+          variants={item}
+        >
           Step by step, day by day...
-        </span>
-        <h3 className="text-6xl md:text-8xl  ">REN TAN</h3>
+        </motion.span>
+        <motion.h3 variants={textItem} className="text-6xl md:text-8xl  ">
+          REN TAN
+        </motion.h3>
         <span className="text-sm md:text-2xl font-noto_serif italic">
           Software Developer
         </span>
@@ -57,9 +82,9 @@ const ShuffleHero = () => {
             <Button className="rounded-full">Watch Now</Button>
           </Link>
         </div>
-      </div>
+      </motion.div>
       <ShuffleGrid />
-    </section>
+    </motion.section>
   );
 };
 
@@ -85,7 +110,7 @@ const generateSquare = () => {
       variants={item}
       key={sq.id}
       layout
-      transition={{ duration: 7, type: "spring" }}
+      transition={{ duration: 3, type: "spring" }}
       className="w-full h-full rounded-full"
       style={{
         backgroundImage: `url(${sq.src})`,
